@@ -8,7 +8,7 @@ app = Flask(__name__)
 # enable CORS for all routes
 CORS(app)
 
-allowed_projects = {"tsip", "textbook-enrichment"}
+allowed_projects = {"tsip", "textbook-enrichment", "image-complexity"}
 
 
 @app.route('/')
