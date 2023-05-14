@@ -8,7 +8,7 @@ app = Flask(__name__)
 # enable CORS for all routes
 CORS(app)
 
-allowed_projects = {"tsip", "textbook-enrichment", "image-complexity"}
+ALLOWED_PROJECTS = {"tsip", "textbook-enrichment", "image-complexity", "trust-intervention"}
 
 
 @app.route('/')
@@ -16,9 +16,30 @@ def api_hello_world():
     return 'Root endpoint'
 
 
-@app.route('/read')
+@app.route('/read', methods=['GET'])
 def api_read():
-    return "Not allowed"
+    from secret import READ_PASSWORD
+    import time
+    import glob
+
+    print(request.args)
+    # throttle
+    time.sleep(3)
+    print(request.args)
+    if "password" not in request.args:
+        return "Missing password"
+    if request.args.get("password", default=None) != READ_PASSWORD:
+        return "Incorrect password"
+    
+    if "project" not in request.args:
+        return "Missing project"
+    if request.args["project"] not in ALLOWED_PROJECTS:
+        return "Incorrect project"
+    
+    output = ""
+    for file in glob.glob(f"data/{request.args['project']}/*.jsonl"):
+        output += open(file).read()
+    return output
 
 
 @app.route('/log', methods=['GET', 'POST'])
@@ -27,12 +48,13 @@ def api_log():
         return "Invalid content type " + request.content_type
 
     data = request.get_json()
-    if data["project"] not in allowed_projects:
+    if data["project"] not in ALLOWED_PROJECTS:
         return "Invalid project"
 
 
     # make sure the directory exits
-    path_file = "data/" + data["project"] + "/" + data["uid"] + ".jsonl"
+    # path_file = "data/" + data["project"] + "/" + data["uid"] + ".jsonl"
+    path_file = f"data/{data['project']}/{data['uid']}.jsonl"
     path_dir = "/".join(path_file.split("/")[:-1])
     if ".." in path_file or "~" in path_file:
         return "Invalid path"
