@@ -33,7 +33,7 @@ def api_read():
     
     if "project" not in request.args:
         return "Missing project"
-    if request.args["project"] not in ALLOWED_PROJECTS:
+    if ".." in request.args["project"] or "~" in request.args["project"] or request.args["project"].startswith("/"):
         return "Incorrect project"
     
     output = ""
