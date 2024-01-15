@@ -14,6 +14,7 @@ ALLOWED_PROJECTS = {
     "image-complexity",
     "trust-intervention",
     "reading-comprehension-help",
+    "teaching-boundaries",
 }
 
 
