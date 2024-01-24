@@ -16,6 +16,7 @@ ALLOWED_PROJECTS = {
     "reading-comprehension-help",
     "teaching-boundaries",
     "evaluating-dialogue-tutors",
+    "evaluating-dialogue-quality",
 }
 
 
