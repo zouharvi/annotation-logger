@@ -53,13 +53,17 @@ def api_read():
 
 @app.route('/log', methods=['GET', 'POST'])
 def api_log():
+    """
+    Example project: teaching-boundaries, teaching-boundaries/v2
+    """
+
     if request.content_type != 'application/json':
         return "Invalid content type " + request.content_type
 
     data = request.get_json()
-    if data["project"] not in ALLOWED_PROJECTS:
+    # only first pa
+    if data["project"].split("/")[0] not in ALLOWED_PROJECTS:
         return "Invalid project"
-
 
     # make sure the directory exits
     # path_file = "data/" + data["project"] + "/" + data["uid"] + ".jsonl"
