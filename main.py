@@ -17,6 +17,7 @@ ALLOWED_PROJECTS = {
     "teaching-boundaries",
     "evaluating-dialogue-tutors",
     "evaluating-dialogue-quality",
+    "summaries-a-b",
 }
 
 
